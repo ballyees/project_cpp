@@ -1,4 +1,0 @@
-id_bill	id	name	price	amount
-3	1	coffee	20	4
-3	2	kuy isus	20	20
-3	4	deeraira	20	6

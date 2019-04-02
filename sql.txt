@@ -1,3 +1,0 @@
-use shop_test;
-insert into bill values(11, 4, 2780, "2019-04-02 13:40:39");
-\q
