@@ -67,6 +67,7 @@ void insertProduct(unsigned short int id, const char* name, unsigned short int p
     fprintf(name_File, "insert into product values\(%d, \"%s\", %d);\n",id, name, price);
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void insertBill(unsigned int id_bill, unsigned short int id_product, unsigned short int amount, const char* date)
@@ -78,6 +79,7 @@ void insertBill(unsigned int id_bill, unsigned short int id_product, unsigned sh
     fprintf(name_File, "insert into bill values\(%d, %d, %d, \"%s\");\n",id_bill, id_product, amount, date);
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void editProduct(unsigned short int id, const char* name, unsigned short int price)
@@ -89,6 +91,7 @@ void editProduct(unsigned short int id, const char* name, unsigned short int pri
     fprintf(name_File, "update product set name = \"%s\", price = %d where id = %d;\n",name, price, id);
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void delProduct(unsigned short int id = 0, const char *name = "")
@@ -100,6 +103,7 @@ void delProduct(unsigned short int id = 0, const char *name = "")
     fprintf(name_File, "delete from product where name = \"%s\" or id = %d;\n",name, id);
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void delBill(unsigned short int id_bill)
@@ -111,6 +115,7 @@ void delBill(unsigned short int id_bill)
     fprintf(name_File, "delete from bill where id_bill = %d;\n", id_bill);
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void delAllBill_product()
@@ -123,6 +128,7 @@ void delAllBill_product()
     fprintf(name_File, "delete from product where 1;\n");
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void showProduct()
@@ -134,6 +140,7 @@ void showProduct()
     fprintf(name_File, "SELECT * FROM product;\n");
     fprintf(name_File, "\\q");
     fclose(name_File);
+    delay(500);
 }
 
 void outputProduct()
@@ -146,7 +153,7 @@ void outputProduct()
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
-    system("pause");
+    delay(1000);
 }
 
 void outputbill()
@@ -155,10 +162,11 @@ void outputbill()
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    fprintf(name_File, "SELECT * FROM bill order by bill.id_bill INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'");
+    fprintf(name_File, "select bill.id_bill, bill.id, product.name, product.price, bill.amount, bill.date from shop_test.bill join shop_test.product on bill.id = product.id order by bill.id_bill INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'");
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
+    delay(1000);
 }
 
 void outputbill(unsigned int id_bill)
@@ -171,4 +179,18 @@ void outputbill(unsigned int id_bill)
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
+    delay(1000);
+}
+
+void outputbill_day(const char* date)
+{
+    createConnectForO();
+    FILE *name_File;
+    name_File = fopen("sql.txt","w");
+    fprintf(name_File, "use shop_test;\n");
+    fprintf(name_File, "select bill.id_bill, bill.id, product.name, product.price, bill.amount, bill.date from shop_test.bill join shop_test.product on bill.id = product.id where bill.date between '%s 00:00:00' and '%s 23:59:59' order by bill.date INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'",date, date);
+    fprintf(name_File, "\\q");
+    fclose(name_File);
+    system("start connectForO.bat");
+    delay(1000);
 }

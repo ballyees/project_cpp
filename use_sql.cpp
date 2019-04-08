@@ -1,5 +1,42 @@
 #include "sql.cpp"
 using namespace std;
+
+vector<bill> useOutputBill(int cmd, string datetime){
+    if(cmd == 5){
+        printf("input date (year/month/day)(ex. 2019/01/01) : ");
+        cin >> datetime;
+        cin.ignore();
+        printf("Please wait....\n");
+    }
+    if(cmd == 4) outputbill();
+    else if(cmd == 5) outputbill_day(datetime.c_str());
+    bill inB;
+    ifstream inF;
+    string s;
+    vector<bill> m;
+    inF.open("querySQL.txt");
+    while(inF.good()){
+        getline(inF, s, ',');
+        if(s!=""){
+        inB.id_bill = stoi(s);
+        getline(inF, s, ',');
+        inB.detailP.id = stoi(s);
+        getline(inF, s, ',');
+        inB.detailP.name = s.c_str();
+        getline(inF, s, ',');
+        inB.detailP.price = stoi(s);
+        getline(inF, s, ',');
+        inB.amount = stoi(s);
+        getline(inF, s);
+        inB.date = s;
+        //printf("%s - %s\n",s.c_str(), inB.date.c_str());
+        m.push_back(inB);
+        }
+    }
+    inF.close();
+    return m;
+}
+
 void useOutputProduct()
 {
     outputProduct();
@@ -127,6 +164,26 @@ void useInsertBill()
     for(int i=0; i<bills.size(); i++){
         insertBill(bills[i].id_bill, bills[i].detailP.id, bills[i].amount, inB.date.c_str());
         system("start connect.bat");
-        delay(350);
+        delay(500);
+    }
+}
+
+void showBill(int cmd, string datetime = ""){
+    vector<bill> bill_vec = useOutputBill(cmd, datetime);
+    //printf("Please wait....\n");
+    string before = "";
+    /*for(int i=0; i<bill_vec.size(); i++){
+        if(bill_vec[i].date!=before){
+            printf("date : %s\n", bill_vec[i].date);
+            before = bill_vec[i].date;
+        }
+    }*/
+    for(int i=0; i<bill_vec.size(); i++){
+        if(bill_vec[i].date!=before){
+        printf("\t\t\tdate and time : %s \t\tid_bill : %d\n", bill_vec[i].date.c_str(), bill_vec[i].id_bill);
+        printf("\t\t\t___________________________________________________________\n");
+        before = bill_vec[i].date;
+        }
+       // printf("")
     }
 }
