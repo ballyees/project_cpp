@@ -17,6 +17,6 @@ create table bill(id_bill int, id smallint, amount int, date datetime, primary k
 6. copy location file
 7. open "sql.cpp"
 8. replace C:\\\ProgramData\\\MySQL\\\MySQL Server 8.0\\\Uploads -> location value secure_file_priv
-9. replace C:\\\Users\\\MSI-PS42-OEM\\\Desktop\\\project_compro\\shop -> location folder and convert to c style
+9. replace C:\\\Users\\\MSI-PS42-OEM\\\Desktop\\\project_compro\\\shop -> location folder and convert to c style
 10. replace root -> (username)
 11. replace 123456 -> (password)
