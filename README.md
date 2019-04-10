@@ -4,7 +4,7 @@
 3. open mysql in cmd -> mysql -u (username) -p
 4. enter password
   
-// create database
+create database
 -----------------------------------------------------------
 in mysql command line -> copy command
 create database shop_test;
@@ -16,7 +16,7 @@ create table bill(id_bill int, id smallint, amount int, date datetime, primary k
 5. in mysql command line -> show variables like 'secure_file_priv';
 6. copy location file
 7. open "sql.cpp"
-8. replace C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads -> location value secure_file_priv
-9. replace C:\\Users\\MSI-PS42-OEM\\Desktop\\project_compro\\shop -> location folder and convert to c style
+8. replace C:\\\ProgramData\\\MySQL\\\MySQL Server 8.0\\\Uploads -> location value secure_file_priv
+9. replace C:\\\Users\\\MSI-PS42-OEM\\\Desktop\\\project_compro\\shop -> location folder and convert to c style
 10. replace root -> (username)
 11. replace 123456 -> (password)
