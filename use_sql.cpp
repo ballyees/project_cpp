@@ -2,14 +2,14 @@
 using namespace std;
 
 vector<bill> useOutputBill(int cmd, string datetime){
-    if(cmd == 5){
+    if(cmd >= 4 && cmd !=7){
         printf("input date (year/month/day)(ex. 2019/01/01) : ");
         cin >> datetime;
         cin.ignore();
         printf("Please wait....\n");
     }
-    if(cmd == 4) outputbill();
-    else if(cmd == 5) outputbill_day(datetime.c_str());
+    if(cmd == 7) outputbill();
+    else if(cmd >= 4 && cmd !=7) outputbill_day(cmd, datetime.c_str());
     bill inB;
     ifstream inF;
     string s;
@@ -170,14 +170,7 @@ void useInsertBill()
 
 void showBill(int cmd, string datetime = ""){
     vector<bill> bill_vec = useOutputBill(cmd, datetime);
-    //printf("Please wait....\n");
     string before = "";
-    /*for(int i=0; i<bill_vec.size(); i++){
-        if(bill_vec[i].date!=before){
-            printf("date : %s\n", bill_vec[i].date);
-            before = bill_vec[i].date;
-        }
-    }*/
     for(int i=0; i<bill_vec.size(); i++){
         if(bill_vec[i].date!=before){
         printf("\t\t\tdate and time : %s \t\tid_bill : %d\n", bill_vec[i].date.c_str(), bill_vec[i].id_bill);
@@ -186,4 +179,5 @@ void showBill(int cmd, string datetime = ""){
         }
        // printf("")
     }
+    if(bill_vec.empty()) printf("Not found...\n");
 }

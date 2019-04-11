@@ -11,10 +11,10 @@ int main()
     printf("input 1: Edit menu\n");
     printf("input 2: Delete menu\n");
     printf("input 3: Add bill\n");
-    printf("input 4: Show Bill\n");
-    printf("input 5: Show Bill day\n");
-    printf("input : \n");
-    printf("input : \n");
+    printf("input 4: Show Bill day\n");
+    printf("input 5: Show Bill month\n");
+    printf("input 6: Show Bill year\n");
+    //printf("input 7: Show Bill\n");
     printf("input : \n");
     printf("input : \n");
     printf("input -1: end program\n");
@@ -38,7 +38,7 @@ int main()
             break;
         case 4 :
             //useOutputBill();
-            showBill(number);
+            showBill(number, datetime);
             break;
         case 5 :
             showBill(number, datetime);
