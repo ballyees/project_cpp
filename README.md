@@ -7,6 +7,8 @@
 create database
 -----------------------------------------------------------
 in mysql command line -> copy command
+
+-----------------------------------------------------------
 create database shop_test;
 use shop_test;
 create table product(id smallint, name varchar(50), price smallint, primary key(id));
