@@ -1,15 +1,8 @@
 #include "sql.cpp"
 using namespace std;
 
-vector<bill> useOutputBill(int cmd, string datetime){
-    if(cmd >= 4 && cmd !=7){
-        printf("input date (year/month/day)(ex. 2019/01/01) : ");
-        cin >> datetime;
-        cin.ignore();
-        printf("Please wait....\n");
-    }
-    if(cmd == 7) outputbill();
-    else if(cmd >= 4 && cmd !=7) outputbill_day(cmd, datetime.c_str());
+vector<bill> useOutputBill_detail(const char* datetime){
+    outputbill_detail(datetime);
     bill inB;
     ifstream inF;
     string s;
@@ -30,6 +23,31 @@ vector<bill> useOutputBill(int cmd, string datetime){
         getline(inF, s);
         inB.date = s;
         //printf("%s - %s\n",s.c_str(), inB.date.c_str());
+        m.push_back(inB);
+        }
+    }
+    inF.close();
+    return m;
+}
+
+vector<bill> useOutputBill(int cmd, string datetime){
+    if(cmd >= 4 && cmd !=100){
+        printf("input date (year/month/day)(ex. 2019/01/01) : ");
+        cin >> datetime;
+        cin.ignore();
+        printf("Please wait....\n");
+    }
+    if(cmd == 100) outputbill();
+    else if(cmd >= 4 && cmd !=100) outputbill_day(cmd, datetime.c_str());
+    bill inB;
+    ifstream inF;
+    string s;
+    vector<bill> m;
+    inF.open("querySQL.txt");
+    while(inF.good()){
+        getline(inF, s);
+        if(s!=""){
+        inB.date = s;
         m.push_back(inB);
         }
     }
@@ -170,14 +188,43 @@ void useInsertBill()
 
 void showBill(int cmd, string datetime = ""){
     vector<bill> bill_vec = useOutputBill(cmd, datetime);
-    string before = "";
+    //string before = "";
     for(int i=0; i<bill_vec.size(); i++){
-        if(bill_vec[i].date!=before){
-        printf("\t\t\tdate and time : %s \t\tid_bill : %d\n", bill_vec[i].date.c_str(), bill_vec[i].id_bill);
-        printf("\t\t\t___________________________________________________________\n");
-        before = bill_vec[i].date;
-        }
-       // printf("")
+        //printf("\t\t\tdate and time : %s \tid_bill : %d\tshow detail Enter : %d\n", bill_vec[i].date.c_str(), bill_vec[i].id_bill,i);
+        printf("\t\t\tdate and time : %s \tshow detail Enter : %d\n", bill_vec[i].date.c_str(),i);
+        printf("\t\t\t------------------------------------------------------------\n");
     }
-    if(bill_vec.empty()) printf("Not found...\n");
+    if(bill_vec.empty()){
+        printf("Not found...\n");
+    }else{
+        //delete &bill_vec;
+        int num;
+        printf("Enter number -1 for end : ");
+        cin >> num;
+        cin.ignore();
+        vector<bill> bill_detail = useOutputBill_detail(bill_vec[num].date.c_str());
+        if(num!=-1&&!bill_detail.empty()){
+            delete &bill_vec;
+            printf("\t\t\tdate and time : %s \t id_bill : %d\n", bill_detail[0].date.c_str(), bill_detail[0].id_bill);
+            printf("\t\t\t-----------------------------------------------------------------------\n");
+            int total=0;
+            for(int i=0; i < bill_detail.size(); i++){
+                total+=bill_detail[i].detailP.price * bill_detail[i].amount;
+                printf("\t\t\tname : %10s \tprice : %d \tamount : %d \tcalPrice : %d\n",bill_detail[i].detailP.name.c_str(), bill_detail[i].detailP.price, bill_detail[i].amount, bill_detail[i].detailP.price * bill_detail[i].amount);
+            }
+                printf("\t\t\t-----------------------------------------------------------------------\n");
+                printf("\t\t\ttotal : %d\n", total);
+            printf("want delete (Y/N) : ");
+            char yesno;
+            cin >> yesno;
+            if(yesno=='y' || yesno=='Y'){
+                delBill(bill_detail[0].date.c_str());
+                printf("delete compete...\n");
+            }
+
+            delete &bill_detail;
+        }else if(bill_detail.empty()){
+            printf("Not found...\n");
+        }
+    }
 }

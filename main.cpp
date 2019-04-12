@@ -16,7 +16,7 @@ int main()
     printf("input 6: Show Bill year\n");
     //printf("input 7: Show Bill\n");
     printf("input : \n");
-    printf("input : \n");
+    printf("input 100: Show Bill All\n");
     printf("input -1: end program\n");
     printf("input : ");
     scanf("%d", &number);
@@ -44,6 +44,9 @@ int main()
             showBill(number, datetime);
             break;
         case 6 :
+            showBill(number, datetime);
+            break;
+        case 100 :
             showBill(number, datetime);
             break;
         case -1:
