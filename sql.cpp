@@ -36,10 +36,10 @@ void createConnectForO()
     fprintf(name_bat, "echo off\n");
     fprintf(name_bat, "cd C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\n");
     fprintf(name_bat, "del querySQL.txt\n");
-    fprintf(name_bat, "cd C:\\Users\\MSI-PS42-OEM\\Desktop\\project_compro\\shop\n");
+    fprintf(name_bat, "cd C:\\Users\\MSI-PS42-OEM\\Desktop\\GitHub\\project_cpp\n");
     fprintf(name_bat, "mysql -u root -p123456 < sql.txt\n");
     //fprintf(name_bat, "pause\n");
-    fprintf(name_bat, "echo all | copy \"C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\querySQL.txt\" \"C:\\Users\\MSI-PS42-OEM\\Desktop\\project_compro\\shop\"\n");
+    fprintf(name_bat, "echo all | copy \"C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\querySQL.txt\" \"C:\\Users\\MSI-PS42-OEM\\Desktop\\GitHub\\project_cpp\"\n");
     //fprintf(name_bat, "pause\n");
     fprintf(name_bat, "cls\n");
     fprintf(name_bat, "exit");
@@ -250,4 +250,60 @@ void outputbill_day(int cmd, const char* date)
     fclose(name_File);
     system("start connectForO.bat");
     delay(1000);
+}
+
+void getdataChart_SQL(short int cmd, const char *date){
+    string sdate = date;
+    string temp = date;
+    if(sdate.length()==1){
+        sdate = temp = "0"+sdate;
+    }
+    if(sdate.length()==2 && cmd==7){
+        sdate = temp = "2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
+    }
+    else if(sdate.length()==2 && cmd == 8){
+        sdate = "2019/"+sdate+"/01";
+        temp = "2019/"+temp+"/31";
+    }else if(sdate.length()==4 && cmd == 9){
+        sdate = sdate+"/01/01";
+        temp = temp+"/12/31";
+    }else if(sdate.length()==10 && cmd==7){
+        if(sdate[2]=='/' || sdate[2]=='-'){
+            sdate = temp = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
+        }
+    }
+    createConnectForO();
+    FILE *name_File;
+    name_File = fopen("sql.txt","w");
+    fprintf(name_File, "use shop_test;\n");
+    fprintf(name_File, "select product.name, count(*) as total_bill, sum(bill.amount) amountTotal, sum(bill.amount * product.price) priceTotal from bill join product on product.id = bill.id where bill.date between '%s 00:00:00' and '%s 23:59:59' group by product.name order by product.id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'",sdate.c_str(), temp.c_str());
+    fprintf(name_File, "\\q");
+    fclose(name_File);
+    system("start connectForO.bat");
+    delay(1000);
+}
+
+vector<bill> pie_chart(short int cmd, const char* date){
+    getdataChart_SQL(cmd, date);
+    bill inB;
+    ifstream inF;
+    string s;
+    vector<bill> m;
+    inF.open("querySQL.txt");
+    while(inF.good()){
+        getline(inF, s, ',');
+        if(s!=""){
+        inB.detailP.name = s;
+        getline(inF, s, ',');
+        inB.detailP.id = stoi(s);
+        getline(inF, s, ',');
+        inB.amount = stoi(s);
+        getline(inF, s);
+        inB.detailP.price = stoi(s);
+        //printf("%s - %s\n",s.c_str(), inB.date.c_str());
+        m.push_back(inB);
+        }
+    }
+    inF.close();
+    return m;
 }

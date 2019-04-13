@@ -1,6 +1,13 @@
 #include "sql.cpp"
 using namespace std;
 
+int linear_bill(vector<bill> b, int key){
+    for(int i=0; i<b.size(); i++){
+        if(b[i].detailP.id==key) return i;
+    }
+    return -1;
+}
+
 vector<bill> useOutputBill_detail(const char* datetime){
     outputbill_detail(datetime);
     bill inB;
@@ -55,7 +62,7 @@ vector<bill> useOutputBill(int cmd, string datetime){
     return m;
 }
 
-void useOutputProduct()
+vector<product> useOutputProduct()
 {
     outputProduct();
     product inP;
@@ -73,13 +80,13 @@ void useOutputProduct()
         inP.price = stoi(s);
         m.push_back(inP);
         }
-        //printf("%d %s %d %d\n",inP.id, inP.name.c_str(), inP.price, inP.stock);
+        //printf("%d %s %d\n",inP.id, inP.name.c_str(), inP.price);
     }
     inF.close();
-    char set = ' ';
-    for(int i=0; i< m.size(); i++){
+    /*for(int i=0; i< m.size(); i++){
         printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
-    }
+    }*/
+    return m;
 }
 
 void useEditProduct()
@@ -166,24 +173,46 @@ void useInsertBill()
     vector<bill> bills;
     //get time
     inB.date = substr_TimeDMY(timePresent());
-    useOutputProduct();
+    vector<product> m = useOutputProduct();
+    for(int i=0; i< m.size(); i++){
+        printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+    }
     do{
     //input bill
     printf("insert id_product = 0 to end program\n");
     printf("bill id: %d\n", inB.id_bill);
     printf("input id_product: ");
     cin >> inB.detailP.id;
+    cin.ignore();
     if(inB.detailP.id!=0){
         printf("input amount: ");
         cin >> inB.amount;
+        cin.ignore();
         bills.push_back(inB);
     }
     }while(inB.detailP.id!=0);
+    vector<bill> bill_insert;
     for(int i=0; i<bills.size(); i++){
-        insertBill(bills[i].id_bill, bills[i].detailP.id, bills[i].amount, inB.date.c_str());
+        int index = linear_bill(bill_insert, bills[i].detailP.id);
+        if(index==-1){
+            cout << "true" <<endl;
+            bill_insert.push_back(bills[i]);
+        }else{
+            cout << "F" <<endl;
+            bill_insert[index].amount = bill_insert[index].amount+bills[i].amount;
+        }
+    }
+    bills.clear();
+    for(int i=0; i<bill_insert.size(); i++){
+        insertBill(inB.id_bill, bill_insert[i].detailP.id, bill_insert[i].amount, inB.date.c_str());
         system("start connect.bat");
         delay(500);
     }
+    /*for(int i=0; i<bills.size(); i++){
+        insertBill(inB.id_bill, bills[i].detailP.id, bills[i].amount, inB.date.c_str());
+        system("start connect.bat");
+        delay(500);
+    }*/
 }
 
 void showBill(int cmd, string datetime = ""){
@@ -204,7 +233,7 @@ void showBill(int cmd, string datetime = ""){
         cin.ignore();
         vector<bill> bill_detail = useOutputBill_detail(bill_vec[num].date.c_str());
         if(num!=-1&&!bill_detail.empty()){
-            delete &bill_vec;
+            bill_vec.clear();
             printf("\t\t\tdate and time : %s \t id_bill : %d\n", bill_detail[0].date.c_str(), bill_detail[0].id_bill);
             printf("\t\t\t-----------------------------------------------------------------------\n");
             int total=0;
@@ -221,8 +250,7 @@ void showBill(int cmd, string datetime = ""){
                 delBill(bill_detail[0].date.c_str());
                 printf("delete compete...\n");
             }
-
-            delete &bill_detail;
+            bill_detail.clear();
         }else if(bill_detail.empty()){
             printf("Not found...\n");
         }

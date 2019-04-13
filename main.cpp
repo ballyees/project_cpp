@@ -14,7 +14,9 @@ int main()
     printf("input 4: Show Bill day\n");
     printf("input 5: Show Bill month\n");
     printf("input 6: Show Bill year\n");
-    //printf("input 7: Show Bill\n");
+    printf("input 7: Show pie chart d test\n");
+    printf("input 8: Show pie chart m test\n");
+    printf("input 9: Show pie chart y test\n");
     printf("input : \n");
     printf("input 100: Show Bill All\n");
     printf("input -1: end program\n");
@@ -45,6 +47,13 @@ int main()
             break;
         case 6 :
             showBill(number, datetime);
+            break;
+        case 7 :
+            getdataChart_SQL(9, "2019");
+            break;
+        case 8 :
+            break;
+        case 9 :
             break;
         case 100 :
             showBill(number, datetime);
