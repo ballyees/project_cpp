@@ -150,7 +150,7 @@ void outputProduct()
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    fprintf(name_File, "SELECT * FROM product order by id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';\n");
+    fprintf(name_File, "SELECT * FROM product order by id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n");
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
@@ -163,7 +163,7 @@ void outputbill()
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    fprintf(name_File, "select distinct date from bill order by date INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';\n");
+    fprintf(name_File, "select distinct date from bill order by date INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n");
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
@@ -176,7 +176,7 @@ void outputbill_detail(const char* date)
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    fprintf(name_File, "select bill.id_bill, bill.id, product.name, product.price, bill.amount, bill.date from shop_test.bill join shop_test.product on bill.id = product.id where bill.date = '%s' INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';\n",date);
+    fprintf(name_File, "select bill.id_bill, bill.id, product.name, product.price, bill.amount, bill.date from shop_test.bill join shop_test.product on bill.id = product.id where bill.date = '%s' INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n",date);
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
@@ -245,7 +245,7 @@ void outputbill_day(int cmd, const char* date)
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    fprintf(name_File, "select distinct date from bill where bill.date between '%s 00:00:00' and '%s 23:59:59' order by date INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'",sdate.c_str(), temp.c_str());
+    fprintf(name_File, "select distinct date from bill where bill.date between '%s 00:00:00' and '%s 23:59:59' order by date INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n",sdate.c_str(), temp.c_str());
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
@@ -276,14 +276,14 @@ void getdataChart_SQL(short int cmd, const char *date){
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    fprintf(name_File, "select product.name, count(*) as total_bill, sum(bill.amount) amountTotal, sum(bill.amount * product.price) priceTotal from bill join product on product.id = bill.id where bill.date between '%s 00:00:00' and '%s 23:59:59' group by product.name order by product.id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'",sdate.c_str(), temp.c_str());
+    fprintf(name_File, "select product.name, count(*) as total_bill, sum(bill.amount) amountTotal, sum(bill.amount * product.price) priceTotal from bill join product on product.id = bill.id where bill.date between '%s 00:00:00' and '%s 23:59:59' group by product.name order by product.id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n",sdate.c_str(), temp.c_str());
     fprintf(name_File, "\\q");
     fclose(name_File);
     system("start connectForO.bat");
     delay(1000);
 }
 
-vector<bill> pie_chart(short int cmd, const char* date){
+vector<bill> getdataChart(short int cmd, const char* date){
     getdataChart_SQL(cmd, date);
     bill inB;
     ifstream inF;

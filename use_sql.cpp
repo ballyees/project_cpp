@@ -38,12 +38,13 @@ vector<bill> useOutputBill_detail(const char* datetime){
 }
 
 vector<bill> useOutputBill(int cmd, string datetime){
+    /*
     if(cmd >= 4 && cmd !=100){
         printf("input date (year/month/day)(ex. 2019/01/01) : ");
         cin >> datetime;
         cin.ignore();
         printf("Please wait....\n");
-    }
+    }*/
     if(cmd == 100) outputbill();
     else if(cmd >= 4 && cmd !=100) outputbill_day(cmd, datetime.c_str());
     bill inB;
@@ -195,10 +196,10 @@ void useInsertBill()
     for(int i=0; i<bills.size(); i++){
         int index = linear_bill(bill_insert, bills[i].detailP.id);
         if(index==-1){
-            cout << "true" <<endl;
+            //cout << "true" <<endl;
             bill_insert.push_back(bills[i]);
         }else{
-            cout << "F" <<endl;
+            //cout << "F" <<endl;
             bill_insert[index].amount = bill_insert[index].amount+bills[i].amount;
         }
     }
@@ -208,18 +209,11 @@ void useInsertBill()
         system("start connect.bat");
         delay(500);
     }
-    /*for(int i=0; i<bills.size(); i++){
-        insertBill(inB.id_bill, bills[i].detailP.id, bills[i].amount, inB.date.c_str());
-        system("start connect.bat");
-        delay(500);
-    }*/
 }
 
 void showBill(int cmd, string datetime = ""){
     vector<bill> bill_vec = useOutputBill(cmd, datetime);
-    //string before = "";
     for(int i=0; i<bill_vec.size(); i++){
-        //printf("\t\t\tdate and time : %s \tid_bill : %d\tshow detail Enter : %d\n", bill_vec[i].date.c_str(), bill_vec[i].id_bill,i);
         printf("\t\t\tdate and time : %s \tshow detail Enter : %d\n", bill_vec[i].date.c_str(),i);
         printf("\t\t\t------------------------------------------------------------\n");
     }
@@ -231,6 +225,7 @@ void showBill(int cmd, string datetime = ""){
         printf("Enter number -1 for end : ");
         cin >> num;
         cin.ignore();
+        if(num!=-1){
         vector<bill> bill_detail = useOutputBill_detail(bill_vec[num].date.c_str());
         if(num!=-1&&!bill_detail.empty()){
             bill_vec.clear();
@@ -255,4 +250,46 @@ void showBill(int cmd, string datetime = ""){
             printf("Not found...\n");
         }
     }
+    }
+}
+
+void useGetdatachart_bar(short int cmd, const char *date){
+    vector<bill> data = getdataChart(cmd, date);
+    delay(500);
+    if(data.size()>0){
+    FILE *name_File;
+    name_File = fopen("chart.html","w");
+    fprintf(name_File, "<html><head>");
+    fprintf(name_File, "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+    fprintf(name_File, "<script type=\"text/javascript\">");
+    fprintf(name_File, "google.charts.load('current', {'packages':['bar']});");
+    fprintf(name_File, "google.charts.setOnLoadCallback(drawChart);");
+
+    fprintf(name_File, "function drawChart() {");
+    fprintf(name_File, "var data = google.visualization.arrayToDataTable([");
+    fprintf(name_File, "['Product', 'sumBill', 'sumAmount', 'sumPrice'],");
+    for(int i=0; i<data.size(); i++){
+        if(i!=data.size()-1){
+            fprintf(name_File, "['%s',%d,%d,%d],", data[i].detailP.name.c_str(), data[i].detailP.id, data[i].amount, data[i].detailP.price);
+        }else{
+            fprintf(name_File, "['%s',%d,%d,%d]", data[i].detailP.name.c_str(), data[i].detailP.id, data[i].amount, data[i].detailP.price);
+        }
+    }
+    fprintf(name_File, "]);");
+    fprintf(name_File, "var options = { chart: { title: 'Amount Product Sales',");
+    fprintf(name_File, "subtitle: 'sumBill, sumAmount, and sumPrice: ',},");
+    fprintf(name_File, "bars: 'horizontal'}; // Required for Material Bar Charts.\n");
+    fprintf(name_File, "var chart = new google.charts.Bar(document.getElementById('barchart_material'));");
+    fprintf(name_File, "chart.draw(data, google.charts.Bar.convertOptions(options));}");
+    fprintf(name_File, "</script></head><body>");
+    fprintf(name_File, "<div id=\"barchart_material\" style=\"width: 900px; height: 500px;\">");
+    fprintf(name_File, "</div></body></html>");
+
+    fclose(name_File);
+    delay(500);
+    system("start chart.html");
+    }else{
+        printf("Not Found....\n");
+    }
+    //delay(1000);
 }
