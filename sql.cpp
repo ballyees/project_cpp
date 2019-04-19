@@ -132,6 +132,22 @@ void delAllBill_product()
     delay(500);
 }
 
+void useDel_All()
+{
+    FILE *name_bat;
+    name_bat = fopen("connect.bat","w");
+    fprintf(name_bat, "echo off\n");
+    fprintf(name_bat, "mysql -u root -p123456 < sql.txt\n");
+    //fprintf(name_bat, "pause\n");
+    fprintf(name_bat, "echo 1 > auto_bill.txt\n");
+    fprintf(name_bat, "echo 1 > auto_product.txt\n");
+    fprintf(name_bat, "cls\n");
+    fprintf(name_bat, "exit");
+    fclose(name_bat);
+    delAllBill_product();
+    system("start connect.bat");
+}
+
 void showProduct()
 {
     createConnect();

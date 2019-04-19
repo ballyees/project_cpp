@@ -92,7 +92,10 @@ vector<product> useOutputProduct()
 
 void useEditProduct()
 {
-    useOutputProduct();
+    vector<product> m = useOutputProduct();
+    for(int i=0; i< m.size(); i++){
+        printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+    }
     product inP;
     printf("product id: ");
     cin >> inP.id;
@@ -134,7 +137,10 @@ void useInsertProduct()
 
 void useDelProduct()
 {
-    useOutputProduct();
+    vector<product> m = useOutputProduct();
+    for(int i=0; i< m.size(); i++){
+        printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+    }
     int id;
     char command;
     string name;
@@ -243,7 +249,7 @@ void showBill(int cmd, string datetime = ""){
             cin >> yesno;
             if(yesno=='y' || yesno=='Y'){
                 delBill(bill_detail[0].date.c_str());
-                printf("delete compete...\n");
+                printf("delete complete...\n");
             }
             bill_detail.clear();
         }else if(bill_detail.empty()){
@@ -267,22 +273,30 @@ void useGetdatachart_bar(short int cmd, const char *date){
 
     fprintf(name_File, "function drawChart() {");
     fprintf(name_File, "var data = google.visualization.arrayToDataTable([");
-    fprintf(name_File, "['Product', 'sumBill', 'sumAmount', 'sumPrice'],");
-    for(int i=0; i<data.size(); i++){
+    //fprintf(name_File, "['Product', 'sumBill', 'sumAmount', 'sumPrice'],");
+    fprintf(name_File, "['Product', 'sumPrice'],");
+    /*for(int i=0; i<data.size(); i++){
         if(i!=data.size()-1){
             fprintf(name_File, "['%s',%d,%d,%d],", data[i].detailP.name.c_str(), data[i].detailP.id, data[i].amount, data[i].detailP.price);
         }else{
             fprintf(name_File, "['%s',%d,%d,%d]", data[i].detailP.name.c_str(), data[i].detailP.id, data[i].amount, data[i].detailP.price);
         }
+    }*/
+    for(int i=0; i<data.size(); i++){
+        if(i!=data.size()-1){
+            fprintf(name_File, "['%s',%d],", data[i].detailP.name.c_str(), data[i].detailP.price);
+        }else{
+            fprintf(name_File, "['%s',%d]", data[i].detailP.name.c_str(), data[i].detailP.price);
+        }
     }
     fprintf(name_File, "]);");
     fprintf(name_File, "var options = { chart: { title: 'Amount Product Sales',");
-    fprintf(name_File, "subtitle: 'sumBill, sumAmount, and sumPrice: ',},");
+    fprintf(name_File, "subtitle: 'sumPrice: ',},");
     fprintf(name_File, "bars: 'horizontal'}; // Required for Material Bar Charts.\n");
     fprintf(name_File, "var chart = new google.charts.Bar(document.getElementById('barchart_material'));");
     fprintf(name_File, "chart.draw(data, google.charts.Bar.convertOptions(options));}");
     fprintf(name_File, "</script></head><body>");
-    fprintf(name_File, "<div id=\"barchart_material\" style=\"width: 900px; height: 500px;\">");
+    fprintf(name_File, "<div id=\"barchart_material\" style=\"width: 1024px; height: 576px;\">");
     fprintf(name_File, "</div></body></html>");
 
     fclose(name_File);
