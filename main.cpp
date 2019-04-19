@@ -1,35 +1,78 @@
-#include <conio.h>
-#include <graphics.h>
-#include <iostream>
-#include <cmath>
+#include "use_sql.cpp"
+
+using namespace std;
 
 int main()
 {
-    int gd = DETECT , gm , midx , midy;
-
-    initgraph(&gd , &gm , "C:\\TC\\BGI");
-
-    setcolor(MAGENTA);
-    rectangle(0,40,639,450);
-    settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
-    setcolor(WHITE);
-    outtextxy(270,10,"PIE CHART");
-
-    midx = getmaxx()/2;
-    midy = getmaxy()/2;
-
-    setfillstyle(4,BLUE);
-    pieslice(midx , midy ,0 , 75 , 100);
-    outtextxy(midx+100,midy-75,"20.83%");
-
-    setfillstyle(5,RED);
-    pieslice(midx , midy ,75 , 255 , 100);
-    outtextxy(midx-175,midy-75,"41.67%");
-
-    setfillstyle(6,GREEN);
-    pieslice(midx , midy ,255 , 360 , 100);
-    outtextxy(midx+75,midy+75,"37.50%");
-
-    getch();
+    string datetime;
+    int number;
+    do{
+    printf("input 0: Add menu\n");
+    printf("input 1: Edit menu\n");
+    printf("input 2: Delete menu\n");
+    printf("input 3: Add bill\n");
+    printf("input 4: Show Bill day\n");
+    printf("input 5: Show Bill month\n");
+    printf("input 6: Show Bill year\n");
+    printf("input 7: Show chart d test\n");
+    printf("input 8: Show chart m test\n");
+    printf("input 9: Show chart y test\n");
+    printf("input : \n");
+    printf("input 100: Show Bill All\n");
+    printf("input -1: end program\n");
+    printf("input : ");
+    scanf("%d", &number);
+    cin.ignore();
+    if(number >= 4 && number !=100){
+        printf("input date (year/month/day)(ex. 2019/01/01) : ");
+        cin >> datetime;
+        cin.ignore();
+        printf("Please wait....\n");
+    }
+    switch (number)
+    {
+        case 0 :
+            useInsertProduct();
+            break;
+        case 1 :
+            useEditProduct();
+            break;
+        case 2 :
+            useDelProduct();
+            break;
+        case 3 :
+            useInsertBill();
+            break;
+        case 4 :
+            //useOutputBill();
+            showBill(number, datetime);
+            break;
+        case 5 :
+            showBill(number, datetime.c_str());
+            break;
+        case 6 :
+            showBill(number, datetime.c_str());
+            break;
+        case 7 :
+            useGetdatachart_bar(number, datetime.c_str());
+            //getdataChart_SQL(9, "2019");
+            break;
+        case 8 :
+            useGetdatachart_bar(number, datetime.c_str());
+            break;
+        case 9 :
+            useGetdatachart_bar(number, datetime.c_str());
+            break;
+        case 100 :
+            showBill(number, datetime);
+            break;
+        case -1:
+            break;
+        default :
+            printf("Invalid command...\n");
+            break;
+    }
+    printf("\n--------------------------------------\n");
+    }while(number!=-1);
     return 0;
 }
