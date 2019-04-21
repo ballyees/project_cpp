@@ -46,7 +46,7 @@ vector<bill> useOutputBill(int cmd, string datetime){
         printf("Please wait....\n");
     }*/
     if(cmd == 100) outputbill();
-    else if(cmd >= 4 && cmd !=100) outputbill_day(cmd, datetime.c_str());
+    else if(cmd >= 4 && cmd <=6) outputbill_day(cmd, datetime.c_str());
     bill inB;
     ifstream inF;
     string s;
@@ -263,25 +263,20 @@ void useGetdatachart_bar(short int cmd, const char *date){
     vector<bill> data = getdataChart(cmd, date);
     delay(500);
     if(data.size()>0){
+    string sdate = get_trueDate(cmd, date);
+
     FILE *name_File;
     name_File = fopen("chart.html","w");
     fprintf(name_File, "<html><head>");
-    fprintf(name_File, "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+    //fprintf(name_File, "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
+    fprintf(name_File, "<script type=\"text/javascript\" src=\"loader.js\"></script>");
     fprintf(name_File, "<script type=\"text/javascript\">");
     fprintf(name_File, "google.charts.load('current', {'packages':['bar']});");
     fprintf(name_File, "google.charts.setOnLoadCallback(drawChart);");
 
     fprintf(name_File, "function drawChart() {");
     fprintf(name_File, "var data = google.visualization.arrayToDataTable([");
-    //fprintf(name_File, "['Product', 'sumBill', 'sumAmount', 'sumPrice'],");
     fprintf(name_File, "['Product', 'sumPrice'],");
-    /*for(int i=0; i<data.size(); i++){
-        if(i!=data.size()-1){
-            fprintf(name_File, "['%s',%d,%d,%d],", data[i].detailP.name.c_str(), data[i].detailP.id, data[i].amount, data[i].detailP.price);
-        }else{
-            fprintf(name_File, "['%s',%d,%d,%d]", data[i].detailP.name.c_str(), data[i].detailP.id, data[i].amount, data[i].detailP.price);
-        }
-    }*/
     for(int i=0; i<data.size(); i++){
         if(i!=data.size()-1){
             fprintf(name_File, "['%s',%d],", data[i].detailP.name.c_str(), data[i].detailP.price);
@@ -291,7 +286,7 @@ void useGetdatachart_bar(short int cmd, const char *date){
     }
     fprintf(name_File, "]);");
     fprintf(name_File, "var options = { chart: { title: 'Amount Product Sales',");
-    fprintf(name_File, "subtitle: 'sumPrice: ',},");
+    fprintf(name_File, "subtitle: 'sumPrice in : %s',},",sdate.c_str());
     fprintf(name_File, "bars: 'horizontal'}; // Required for Material Bar Charts.\n");
     fprintf(name_File, "var chart = new google.charts.Bar(document.getElementById('barchart_material'));");
     fprintf(name_File, "chart.draw(data, google.charts.Bar.convertOptions(options));}");

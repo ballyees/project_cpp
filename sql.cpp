@@ -28,6 +28,58 @@ void delay(unsigned int mseconds)
     while (goal > clock());
 }
 
+string get_trueDate(short int cmd, const char *date){
+    string sdate = date;
+    if(sdate.length()==1){
+        sdate = "0"+sdate;
+    } //add 0
+    if(cmd == 10) return "ALL";
+    if(sdate.length()==2 && (cmd==4 || cmd== 7)){
+        sdate = "2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
+    }else if(sdate.length()==2 && (cmd == 5 || cmd== 8)){
+        sdate = "2019/"+sdate+"/01";
+    }else if(sdate.length()==4 && (cmd == 6 || cmd== 9)){
+        sdate = sdate+"/01/01";
+    }else if(sdate.length()==10 && (cmd==4 || cmd== 7)){
+        if(sdate[2]=='/' || sdate[2]=='-'){
+            sdate = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
+        }
+    }else if(sdate.length()==7 && (cmd == 5 || cmd== 8)){
+        if(sdate[2]=='/'||sdate[2]=='-'){
+            sdate = sdate.substr(0,2)+"/"+sdate.substr(3,4);
+        }
+    }
+    return sdate;
+}
+
+void get_trueDate2string(short int cmd, const char *date, string &sdate, string &temp){
+    sdate = date;
+    temp = date;
+    if(sdate.length()==1){
+        sdate = temp = "0"+sdate;
+    } //add 0
+    if(sdate.length()==2 && (cmd==4 || cmd== 7)){
+        sdate = temp ="2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
+    }else if(sdate.length()==2 && (cmd == 5 || cmd== 8)){
+        sdate = "2019/"+sdate+"/01";
+        temp = "2019/"+temp+"/31";
+    }else if(sdate.length()==4 && (cmd == 6 || cmd== 9)){
+        sdate = sdate+"/01/01";
+        temp = temp+"/12/31";
+    }else if(sdate.length()==10 && (cmd==4 || cmd== 7)){
+        if(sdate[2]=='/' || sdate[2]=='-'){
+            sdate = temp = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
+        }
+    }else if(sdate.length()==7 && (cmd == 5 || cmd== 8)){
+        if(sdate[2]=='/'||sdate[2]=='-'){
+            sdate = sdate.substr(3,4)+"/"+sdate.substr(0,2)+"/01";
+            temp = sdate.substr(0,8)+"31";
+        }else{
+            sdate = sdate+"/01";
+            temp = sdate.substr(0,8)+"31";
+        }
+    }
+}
 
 void createConnectForO()
 {
@@ -236,27 +288,9 @@ void outputbill_day(int cmd, const char* date)
 void outputbill_day(int cmd, const char* date)
 {
     //printf("%s %d\n",date, sizeof(date)/sizeof(char));
-    string sdate = date;
-    string temp = date;
-    if(sdate.length()==1){
-        sdate = temp = "0"+sdate;
-    }
-    if(sdate.length()==2 && cmd==4){
-        sdate = temp = "2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
-    }
-    else if(sdate.length()==2 && cmd == 5){
-        sdate = "2019/"+sdate+"/01";
-        temp = "2019/"+temp+"/31";
-        //cout << sdate;
-    }else if(sdate.length()==4 && cmd == 6){
-        sdate = sdate+"/01/01";
-        temp = temp+"/12/31";
-    }else if(sdate.length()==10 && cmd==4){
-        if(sdate[2]=='/' || sdate[2]=='-'){
-            sdate = temp = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
-        }
-    }
-    //printf("%s %d\n", date, sdate.length());
+    string sdate , temp;
+    get_trueDate2string(cmd, date, sdate, temp);
+
     createConnectForO();
     FILE *name_File;
     name_File = fopen("sql.txt","w");
@@ -269,25 +303,9 @@ void outputbill_day(int cmd, const char* date)
 }
 
 void getdataChart_SQL(short int cmd, const char *date){
-    string sdate = date;
-    string temp = date;
-    if(sdate.length()==1){
-        sdate = temp = "0"+sdate;
-    }
-    if(sdate.length()==2 && cmd==7){
-        sdate = temp = "2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
-    }
-    else if(sdate.length()==2 && cmd == 8){
-        sdate = "2019/"+sdate+"/01";
-        temp = "2019/"+temp+"/31";
-    }else if(sdate.length()==4 && cmd == 9){
-        sdate = sdate+"/01/01";
-        temp = temp+"/12/31";
-    }else if(sdate.length()==10 && cmd==7){
-        if(sdate[2]=='/' || sdate[2]=='-'){
-            sdate = temp = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
-        }
-    }
+    string sdate, temp;
+    get_trueDate2string(cmd, date, sdate, temp);
+
     createConnectForO();
     FILE *name_File;
     name_File = fopen("sql.txt","w");
