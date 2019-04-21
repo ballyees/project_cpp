@@ -1,16 +1,29 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+//#include <iostream>
 #include <sstream>
 #include <cmath>
-#include <string>
-#include <cstdlib>
+//#include <string>
+//#include <cstdlib>
+#include "use_sql.cpp"
 using namespace sf;
 using namespace std;
 
-constexpr double pi() { return atan(1)*4; }
+constexpr double pi() {
+    /*vector<bill> chart = getdataChart(10,"");
+    bill inx;
+    inx.detailP.name, inx.detailP.id, inx.amount, inx.detailP.price;*/
+    return atan(1)*4; }
 
 int main()
 {
+    vector<bill> chart = getdataChart(10,"");
+    for(int i=0 ; i<chart.size(); i++){
+        cout << chart[i].detailP.name << endl;
+        cout << chart[i].detailP.id << endl;
+        cout << chart[i].amount << endl;
+        cout << chart[i].detailP.price << endl;
+        //cout << inx.detailP.name, inx.detailP.id, inx.amount, inx.detailP.price;;
+    }/*
     const unsigned int s = 800;
     const unsigned int N = 450;
 
@@ -27,20 +40,18 @@ int main()
     cout<<"Enter Name of Y axis : ";
     getline(cin,axisY);
 
-    int data; //define data number
-    cout<<"Enter number of data : ";
-    cin>>data;
+    int data=chart.size(); //define data number
 
-    float Y[data+1]={};
+    float Y[chart.size()+1]={};
     Y[0] = 0;
-    for (int i=1;i<data+1;i++){
-        cout<<"Enter data["<<i<<"] : ";
-        cin>>Y[i];
+    for (int i=1;i<chart.size();i++){
+        Y
     }
-    float Ymax =Y[0];
-    for(int i=1;i<data+1;i++){
-        if(Y[i]>Ymax) Ymax = Y[i];
+    float Ymax = chart[0].detailP.price;
+    for(int i=1;i<chart.size()+1;i++){
+        if(chart[i].detailP.price>Ymax) Ymax = chart[i].detailP.price;
     }
+
     VertexArray graph(LinesStrip,5);
     graph[0].position = Vector2f(100,100);
     graph[0].color = Color::Black;
@@ -66,14 +77,14 @@ int main()
     text.setStyle(Text::Bold);
     text.setPosition(100, 20);
 
-    Text texty[data+1];
-    for(int i=0;i<data+1;i++){
+    Text texty[chart.size()+1];
+    for(int i=0;i<chart.size()+1;i++){
         texty[i].setFont(font);
         texty[i].setCharacterSize(10);
         texty[i].setFillColor(sf::Color::Black);
     }
-    Text textx[data+1];
-    for(int i=0;i<data+1;i++){
+    Text textx[chart.size()+1];
+    for(int i=0;i<chart.size()+1;i++){
         textx[i].setFont(font);
         textx[i].setCharacterSize(10);
         textx[i].setFillColor(sf::Color::Black);
@@ -95,9 +106,9 @@ int main()
     textaxisX.setStyle(Text::Bold);
     textaxisX.setPosition(720, 360);
 
-    VertexArray chart(LinesStrip,data+1);
+    VertexArray chart(LinesStrip,chart.size()+1);
     for (int i=0;i<data+1;i++){
-        unsigned int x = (i*(600/data))+100;
+        unsigned int x = (i*(600/chart.size()))+100;
         unsigned int y = 350-(250/Ymax)*Y[i];
         chart[i].position = Vector2f(x,y);
         chart[i].color = Color::Red;
@@ -125,12 +136,12 @@ int main()
         window.draw(text);
         window.draw(textaxisX);
         window.draw(textaxisY);
-        for(int i=0; i<data+1; i++){
+        for(int i=0; i<chart.size()+1; i++){
             window.draw(texty[i]);
             if (i>0) window.draw(textx[i]);
         }
         window.display();
-    }
+    }*/
     return 0;
 }
 
