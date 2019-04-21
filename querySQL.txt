@@ -1,8 +1,9 @@
-1,coffee,20
-2,edit 1,37
-3,anni,20
-4,deeraira,20
-5,aoc,40
-8,deedee,70
-9,ggez,20
-11,ghost ,45
+coffee,17,45,900
+mocca,12,45,2250
+ice tea,14,28,1120
+green tea,13,36,1440
+cocoa,7,21,945
+espresso,5,10,350
+latte,1,1,45
+cappucchino,3,6,270
+eiei,1,2,80

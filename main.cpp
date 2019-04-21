@@ -17,13 +17,14 @@ int main()
     printf("input 7: Show chart d test\n");
     printf("input 8: Show chart m test\n");
     printf("input 9: Show chart y test\n");
+    printf("input 10: Show chart all test\n");
     printf("input : \n");
     printf("input 100: Show Bill All\n");
     printf("input -1: end program\n");
     printf("input : ");
     scanf("%d", &number);
     cin.ignore();
-    if(number >= 4 && number !=100){
+    if(number >= 4 && number !=100 && number != 10){
         printf("input date (year/month/day)(ex. 2019/01/01) : ");
         cin >> datetime;
         cin.ignore();
@@ -63,6 +64,9 @@ int main()
         case 9 :
             useGetdatachart_bar(number, datetime.c_str());
             break;
+        case 10 :
+            useGetdatachart_bar(number, datetime.c_str());
+            break;
         case 100 :
             showBill(number, datetime);
             break;
@@ -70,9 +74,12 @@ int main()
             break;
         default :
             printf("Invalid command...\n");
+            system("pause");
             break;
     }
     printf("\n--------------------------------------\n");
+    system("cls");
     }while(number!=-1);
+    printf("\n\t\t\t....Thank You....\n");
     return 0;
 }
