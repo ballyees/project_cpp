@@ -268,9 +268,11 @@ void useGetdatachart_bar(short int cmd, const char *date){
     FILE *name_File;
     name_File = fopen("chart.html","w");
     fprintf(name_File, "<html><head>");
-    //fprintf(name_File, "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>");
-    fprintf(name_File, "<script type=\"text/javascript\" src=\"loader.js\"></script>");
+    fprintf(name_File, "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>\n");
+    //fprintf(name_File, "<script type=\"text/javascript\" src=\"loader.js\"></script>");
     fprintf(name_File, "<script type=\"text/javascript\">");
+
+    // --- start bar Chart ---
     fprintf(name_File, "google.charts.load('current', {'packages':['bar']});");
     fprintf(name_File, "google.charts.setOnLoadCallback(drawChart);");
 
@@ -290,9 +292,34 @@ void useGetdatachart_bar(short int cmd, const char *date){
     fprintf(name_File, "bars: 'horizontal'}; // Required for Material Bar Charts.\n");
     fprintf(name_File, "var chart = new google.charts.Bar(document.getElementById('barchart_material'));");
     fprintf(name_File, "chart.draw(data, google.charts.Bar.convertOptions(options));}");
-    fprintf(name_File, "</script></head><body>");
-    fprintf(name_File, "<div id=\"barchart_material\" style=\"width: 1024px; height: 576px;\">");
-    fprintf(name_File, "</div></body></html>");
+    fprintf(name_File, "</script>\n");
+    // --- end bar chart ---
+
+    // --- start pie chart ---
+    fprintf(name_File, "<script type=\"text/javascript\">");
+    fprintf(name_File, "google.charts.load('current', {'packages':['corechart']});");
+    fprintf(name_File, "google.charts.setOnLoadCallback(drawChartP);");
+    fprintf(name_File, "function drawChartP() {");
+    fprintf(name_File, "var dataP = google.visualization.arrayToDataTable([");
+    fprintf(name_File, "['nameProduct', 'sum'],");
+    for(int i=0; i<data.size(); i++){
+        if(i!=data.size()-1){
+            fprintf(name_File, "['%s',%d],", data[i].detailP.name.c_str(), data[i].detailP.price);
+        }else{
+            fprintf(name_File, "['%s',%d]", data[i].detailP.name.c_str(), data[i].detailP.price);
+        }
+    }
+    fprintf(name_File, "]);");
+    fprintf(name_File, "var optionsP = { title: 'Pie Chart in %s : ',is3D: true,};",sdate.c_str());
+    //fprintf(name_File, "subtitle: 'sumPrice in : %s',},",sdate.c_str());
+    fprintf(name_File, "var chart = new google.visualization.PieChart(document.getElementById('piechart'));");
+    fprintf(name_File, "chart.draw(dataP, optionsP);}");
+    fprintf(name_File, "</script>\n");
+    // --- end pie chart ---
+    fprintf(name_File, "</head><body>");
+    fprintf(name_File, "<div id=\"barchart_material\" style=\"width: 1024px; height: 576px;\"></div>\n");
+    fprintf(name_File, "<div id=\"piechart\" style=\"width: 1024px; height: 576px;\"></div>\n");
+    fprintf(name_File, "</body></html>");
 
     fclose(name_File);
     delay(500);

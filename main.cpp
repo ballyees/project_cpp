@@ -14,17 +14,20 @@ int main()
     printf("input 4: Show Bill day\n");
     printf("input 5: Show Bill month\n");
     printf("input 6: Show Bill year\n");
-    printf("input 7: Show chart d test\n");
-    printf("input 8: Show chart m test\n");
-    printf("input 9: Show chart y test\n");
-    printf("input 10: Show chart all test\n");
-    printf("input : \n");
+    printf("input 7: Show chart day - HTML\n");
+    printf("input 8: Show chart month - HTML\n");
+    printf("input 9: Show chart year - HTML\n");
+    printf("input 10: Show chart all - HTML\n");
+    printf("input 11: Show chart day - C++\n");
+    printf("input 12: Show chart month - C++\n");
+    printf("input 13: Show chart year - C++\n");
+    printf("input 14: Show chart all - C++\n");
     printf("input 100: Show Bill All\n");
     printf("input -1: end program\n");
     printf("input : ");
     scanf("%d", &number);
     cin.ignore();
-    if(number >= 4 && number !=100 && number != 10){
+    if(number >= 4 && number <=9){
         printf("input date (year/month/day)(ex. 2019/01/01) : ");
         cin >> datetime;
         cin.ignore();
@@ -45,7 +48,6 @@ int main()
             useInsertBill();
             break;
         case 4 :
-            //useOutputBill();
             showBill(number, datetime);
             break;
         case 5 :
@@ -56,7 +58,6 @@ int main()
             break;
         case 7 :
             useGetdatachart_bar(number, datetime.c_str());
-            //getdataChart_SQL(9, "2019");
             break;
         case 8 :
             useGetdatachart_bar(number, datetime.c_str());
@@ -66,6 +67,18 @@ int main()
             break;
         case 10 :
             useGetdatachart_bar(number, datetime.c_str());
+            break;
+        case 11 :
+            //Chart_Pie_main();
+            break;
+        case 12 :
+            //Chart_Pie_main();
+            break;
+        case 13 :
+            //Chart_Pie_main();
+            break;
+        case 14 :
+            //Chart_Pie_main();
             break;
         case 100 :
             showBill(number, datetime);
