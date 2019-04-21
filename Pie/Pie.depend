@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1555846137 source:c:\users\evolution\desktop\pie\main.cpp
+	<conio.h>
+	<graphics.h>
+	<iostream>
+	<cmath>
+
