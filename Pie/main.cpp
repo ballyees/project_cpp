@@ -2,13 +2,14 @@
 #include <graphics.h>
 #include <iostream>
 #include <cmath>
+using namespace std;
 
 int main()
 {
     int gd = DETECT , gm , midx , midy;
 
-    initgraph(&gd , &gm , "C:\\TC\\BGI");
 
+    initgraph(&gd , &gm , "C:\\TC\\BGI");
     setcolor(MAGENTA);
     rectangle(0,40,639,450);
     settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
@@ -18,23 +19,20 @@ int main()
     midx = getmaxx()/2;
     midy = getmaxy()/2;
 
-    /*setfillstyle(4,BLUE);
-    pieslice(midx , midy ,0 , 75 , 100);
-    outtextxy(midx+100,midy-75,"20.83%");
-
-    setfillstyle(5,RED);
-    pieslice(midx , midy ,75 , 255 , 100);
-    outtextxy(midx-175,midy-75,"41.67%");*/
-
-    int data[4]={25,25,25,25};
-    float pstart = 0, pend = 0;
-    for(int i=0;i<4;i++){
-        setfillstyle(i,(i+1,i+1,i+1));
-        pend += data[i]/100 * 360;
-        pieslice(midx , midy ,pstart , pend , 100);
-        //outtextxy(midx+75,midy+75,"37.50%");
-        pstart = pend;
+    int n = 6; //input data number
+    float data[6]={55,34,21,3,2,4},sum=0;//input data
+    for (int i=0; i<n ; i++){
+        sum+=data[i];
     }
+    float pend=0,pstart=0;
+
+    for (int i=0; i<n; i++){
+        pend += (data[i]/sum)*360;
+        setfillstyle(3,(i,i+1,i+2));
+        pieslice(midx , midy , pstart , pend , 100);
+        pstart=pend;
+    }
+
     getch();
     return 0;
 }
