@@ -345,3 +345,68 @@ vector<bill> getdataChart(short int cmd, const char* date){
     inF.close();
     return m;
 }
+
+void changeName(){
+    string name;
+    printf("Input name : ");
+    getline(cin, name);
+    ofstream out;
+    out.open("nameShop.txt");
+    out << name;
+    out.close();
+}
+
+void printShop(){
+    cout << "\t\t\t*\t\t\t*\t\t\t*\t\t\t\n" ;
+    cout << "                       *                       *                       *" << endl;
+    cout << "                      *                       *                       *" << endl;
+    cout << "                      *                       *                       * " << endl;
+    cout << "                       *                       *                       * " << endl;
+    cout << "                        *                       *                       * " << endl;
+    cout << "                       *                       *                       * " << endl;
+    cout << "                      *                       *                       * " << endl;
+    cout << "                       *                       *                       * " << endl<< endl;
+    cout << "                   ==========================================================                      " << endl;
+    cout << "                   ==                                                      ==                      " << endl;
+    cout << "                    ==                                                    ==________               " << endl;
+    cout << "                      ==                                                == ___     *             " << endl;
+    cout << "                       <><><><><><><><><><><><><><><><><><><><><><><><><>       *    *             " << endl;
+    cout << "                        <><><><><><><><><    Welcome    <><><><><><><><>        *   *              " << endl;
+    cout << "                         <><><><><><><><><><><><><><><><><><><><><><><>       *   *                " << endl;
+    cout << "                          ============================================      *   *                  " << endl;
+    cout << "                           ==========================================     *   *                    " << endl;
+    cout << "                           *                                        *__ *   *                      " << endl;
+    cout << "                            *                                      *___ *                        " << endl;
+    cout << "                              *                                  *                                 " << endl;
+    cout << "                                *                              *                                   " << endl;
+    cout << "                                  ============================                                     " << endl << endl << endl ;
+}
+
+void printMenu(){
+    string nameShop;
+    ifstream in;
+    in.open("nameShop.txt");
+    getline(in, nameShop);
+    in.close();
+    printf("\t\t%s\n",nameShop.c_str());
+    printf("---------------------------------------------\n");
+    printf("input 0: Add menu\n");
+    printf("input 1: Edit menu\n");
+    printf("input 2: Delete menu\n");
+    printf("input 3: Add bill\n");
+    printf("input 4: Show Bill day\n");
+    printf("input 5: Show Bill month\n");
+    printf("input 6: Show Bill year\n");
+    printf("input 7: Show chart day - HTML\n");
+    printf("input 8: Show chart month - HTML\n");
+    printf("input 9: Show chart year - HTML\n");
+    printf("input 10: Show chart all - HTML\n");
+    printf("input 11: Show chart day - C++\n");
+    printf("input 12: Show chart month - C++\n");
+    printf("input 13: Show chart year - C++\n");
+    printf("input 14: Show chart all - C++\n");
+    printf("input 100: Show Bill All\n");
+    printf("input 111: Change shop name\n");
+    printf("input -1: end program\n");
+    printf("input : ");
+}

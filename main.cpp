@@ -6,25 +6,11 @@ int main()
 {
     string datetime;
     int number;
+    printShop();
+    system("pause");
+    system("cls");
     do{
-    printf("input 0: Add menu\n");
-    printf("input 1: Edit menu\n");
-    printf("input 2: Delete menu\n");
-    printf("input 3: Add bill\n");
-    printf("input 4: Show Bill day\n");
-    printf("input 5: Show Bill month\n");
-    printf("input 6: Show Bill year\n");
-    printf("input 7: Show chart day - HTML\n");
-    printf("input 8: Show chart month - HTML\n");
-    printf("input 9: Show chart year - HTML\n");
-    printf("input 10: Show chart all - HTML\n");
-    printf("input 11: Show chart day - C++\n");
-    printf("input 12: Show chart month - C++\n");
-    printf("input 13: Show chart year - C++\n");
-    printf("input 14: Show chart all - C++\n");
-    printf("input 100: Show Bill All\n");
-    printf("input -1: end program\n");
-    printf("input : ");
+    printMenu();
     scanf("%d", &number);
     cin.ignore();
     if(number >= 4 && number <=13 &&number!=10){
@@ -86,6 +72,8 @@ int main()
         case 100 :
             showBill(number, datetime);
             break;
+        case 111:
+            changeName();
         case -1:
             break;
         default :
