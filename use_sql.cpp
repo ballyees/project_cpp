@@ -94,7 +94,7 @@ void useEditProduct()
 {
     vector<product> m = useOutputProduct();
     for(int i=0; i< m.size(); i++){
-        printf("name: %20s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+        printf("name: %20s, price: %5d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
     }
     product inP;
     printf("product id: ");
@@ -139,7 +139,7 @@ void useDelProduct()
 {
     vector<product> m = useOutputProduct();
     for(int i=0; i< m.size(); i++){
-        printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+        printf("name: %20s, price: %5d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
     }
     int id;
     char command;
@@ -182,7 +182,7 @@ void useInsertBill()
     inB.date = substr_TimeDMY(timePresent());
     vector<product> m = useOutputProduct();
     for(int i=0; i< m.size(); i++){
-        printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+        printf("name: %20s, price: %5d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
     }
     do{
     //input bill
@@ -240,7 +240,7 @@ void showBill(int cmd, string datetime = ""){
             int total=0;
             for(int i=0; i < bill_detail.size(); i++){
                 total+=bill_detail[i].detailP.price * bill_detail[i].amount;
-                printf("\t\t\tname : %10s \tprice : %d \tamount : %d \tcalPrice : %d\n",bill_detail[i].detailP.name.c_str(), bill_detail[i].detailP.price, bill_detail[i].amount, bill_detail[i].detailP.price * bill_detail[i].amount);
+                printf("\t\t\tname : %20s \tprice : %5d \tamount : %d \tcalPrice : %d\n",bill_detail[i].detailP.name.c_str(), bill_detail[i].detailP.price, bill_detail[i].amount, bill_detail[i].detailP.price * bill_detail[i].amount);
             }
                 printf("\t\t\t-----------------------------------------------------------------------\n");
                 printf("\t\t\ttotal : %d\n", total);

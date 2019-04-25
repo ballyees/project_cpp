@@ -39,51 +39,40 @@ int main()
             useInsertBill();
             break;
         case 4 :
-            printf("Show Bill day :\n--------------------------------------\n");
             showBill(number, datetime);
             break;
         case 5 :
-            printf("Show Bill month :\n--------------------------------------\n");
             showBill(number, datetime.c_str());
             break;
         case 6 :
-            printf("Show Bill year :\n--------------------------------------\n");
             showBill(number, datetime.c_str());
             break;
         case 7 :
-            printf("Show chart day - HTML :\n--------------------------------------\n");
             useGetdatachart_bar(number, datetime.c_str());
             break;
         case 8 :
-            printf("Show chart month - HTML :\n--------------------------------------\n");
             useGetdatachart_bar(number, datetime.c_str());
             break;
         case 9 :
-            printf("Show chart year - HTML :\n--------------------------------------\n");
             useGetdatachart_bar(number, datetime.c_str());
             break;
         case 10 :
-            printf("Show chart all - HTML :\n--------------------------------------\n");
             useGetdatachart_bar(number, datetime.c_str());
             break;
         case 11 :
-            printf("Show chart day - C++ :\n--------------------------------------\n");
             pieChartBGI(number, datetime.c_str());
             break;
         case 12 :
-            printf("Show chart month - C++ :\n--------------------------------------\n");
             pieChartBGI(number, datetime.c_str());
             break;
         case 13 :
-            printf("Show chart year - C++ :\n--------------------------------------\n");
             pieChartBGI(number, datetime.c_str());
             break;
         case 14 :
-            printf("Show chart all - C++ :\n--------------------------------------\n");
             pieChartBGI(number, datetime.c_str());
             break;
         case 100 :
-            printf("Show Bill All :\n--------------------------------------\n");
+            printf("Show Bill All :\n");
             showBill(number, datetime);
             break;
         case 111:
