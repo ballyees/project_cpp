@@ -410,3 +410,18 @@ void printMenu(){
     printf("input -1: end program\n");
     printf("input : ");
 }
+
+string get2decimal(float a){
+    string temp = "", as = to_string(a);
+    for(int i=0; i<as.length(); i++){
+        if(as[i]=='.'){
+            for(int j=0;j<4;j++){
+                temp+=as[i+j];
+            }
+            return temp;
+        }else{
+            temp+=as[i];
+        }
+
+    }
+}
