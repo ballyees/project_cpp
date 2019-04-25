@@ -1,5 +1,5 @@
 #include "use_sql.cpp"
-
+#include "pie.cpp"
 using namespace std;
 
 int main()
@@ -27,7 +27,7 @@ int main()
     printf("input : ");
     scanf("%d", &number);
     cin.ignore();
-    if(number >= 4 && number <=9){
+    if(number >= 4 && number <=13 &&number!=10){
         printf("input date (year/month/day)(ex. 2019/01/01) : ");
         cin >> datetime;
         cin.ignore();
@@ -69,15 +69,18 @@ int main()
             useGetdatachart_bar(number, datetime.c_str());
             break;
         case 11 :
-            //Chart_Pie_main();
+            pieChartBGI(number, datetime.c_str());
             break;
         case 12 :
+            pieChartBGI(number, datetime.c_str());
             //Chart_Pie_main();
             break;
         case 13 :
+            pieChartBGI(number, datetime.c_str());
             //Chart_Pie_main();
             break;
         case 14 :
+            pieChartBGI(number, datetime.c_str());
             //Chart_Pie_main();
             break;
         case 100 :

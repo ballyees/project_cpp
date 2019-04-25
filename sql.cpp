@@ -34,17 +34,17 @@ string get_trueDate(short int cmd, const char *date){
         sdate = "0"+sdate;
     } //add 0
     if(cmd == 10) return "ALL";
-    if(sdate.length()==2 && (cmd==4 || cmd== 7)){
+    if(sdate.length()==2 && (cmd==4 || cmd== 7 || cmd== 11)){
         sdate = "2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
-    }else if(sdate.length()==2 && (cmd == 5 || cmd== 8)){
+    }else if(sdate.length()==2 && (cmd == 5 || cmd== 8 || cmd== 12)){
         sdate = "2019/"+sdate+"/01";
-    }else if(sdate.length()==4 && (cmd == 6 || cmd== 9)){
+    }else if(sdate.length()==4 && (cmd == 6 || cmd== 9 || cmd== 13)){
         sdate = sdate+"/01/01";
-    }else if(sdate.length()==10 && (cmd==4 || cmd== 7)){
+    }else if(sdate.length()==10 && (cmd==4 || cmd== 7 || cmd== 11)){
         if(sdate[2]=='/' || sdate[2]=='-'){
             sdate = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
         }
-    }else if(sdate.length()==7 && (cmd == 5 || cmd== 8)){
+    }else if(sdate.length()==7 && (cmd == 5 || cmd== 8 || cmd== 12)){
         if(sdate[2]=='/'||sdate[2]=='-'){
             sdate = sdate.substr(0,2)+"/"+sdate.substr(3,4);
         }
@@ -58,19 +58,19 @@ void get_trueDate2string(short int cmd, const char *date, string &sdate, string 
     if(sdate.length()==1){
         sdate = temp = "0"+sdate;
     } //add 0
-    if(sdate.length()==2 && (cmd==4 || cmd== 7)){
+    if(sdate.length()==2 && (cmd==4 || cmd== 7 || cmd== 11)){
         sdate = temp ="2019/"+substr_TimeDMY(timePresent()).substr(5, 2)+"/"+sdate;
-    }else if(sdate.length()==2 && (cmd == 5 || cmd== 8)){
+    }else if(sdate.length()==2 && (cmd == 5 || cmd== 8 || cmd== 12)){
         sdate = "2019/"+sdate+"/01";
         temp = "2019/"+temp+"/31";
-    }else if(sdate.length()==4 && (cmd == 6 || cmd== 9)){
+    }else if(sdate.length()==4 && (cmd == 6 || cmd== 9 || cmd== 13)){
         sdate = sdate+"/01/01";
         temp = temp+"/12/31";
-    }else if(sdate.length()==10 && (cmd==4 || cmd== 7)){
+    }else if(sdate.length()==10 && (cmd==4 || cmd== 7 || cmd== 11)){
         if(sdate[2]=='/' || sdate[2]=='-'){
             sdate = temp = sdate.substr(6, 4)+"/"+sdate.substr(3, 2)+"/"+sdate.substr(0, 2);
         }
-    }else if(sdate.length()==7 && (cmd == 5 || cmd== 8)){
+    }else if(sdate.length()==7 && (cmd == 5 || cmd== 8 || cmd== 12)){
         if(sdate[2]=='/'||sdate[2]=='-'){
             sdate = sdate.substr(3,4)+"/"+sdate.substr(0,2)+"/01";
             temp = sdate.substr(0,8)+"31";
@@ -310,7 +310,7 @@ void getdataChart_SQL(short int cmd, const char *date){
     FILE *name_File;
     name_File = fopen("sql.txt","w");
     fprintf(name_File, "use shop_test;\n");
-    if(cmd == 10){
+    if(cmd == 10 || cmd== 14){
         fprintf(name_File, "select product.name, count(*) as total_bill, sum(bill.amount) amountTotal, sum(bill.amount * product.price) priceTotal from bill join product on product.id = bill.id group by product.name order by product.id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n");
     }else{
         fprintf(name_File, "select product.name, count(*) as total_bill, sum(bill.amount) amountTotal, sum(bill.amount * product.price) priceTotal from bill join product on product.id = bill.id where bill.date between '%s 00:00:00' and '%s 23:59:59' group by product.name order by product.id INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/querySQL.txt' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n';\n",sdate.c_str(), temp.c_str());

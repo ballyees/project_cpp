@@ -94,7 +94,7 @@ void useEditProduct()
 {
     vector<product> m = useOutputProduct();
     for(int i=0; i< m.size(); i++){
-        printf("name: %10s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
+        printf("name: %20s, price: %d, input: %10d\n",m[i].name.c_str(), m[i].price, m[i].id);
     }
     product inP;
     printf("product id: ");
